@@ -3,14 +3,18 @@
   "version": "1.0.0",
   "description": "REST APIでsql_parse_202403を使う",
   "main": "./src/index.js",
-  "scripts": {
-    "start": "node ./src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "repository": "https://github.com/yo16/express_sql_parser_202403",
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "start": "node ./src/index.js"
+  },
   "dependencies": {
     "express": "^4.18.3"
+  },
+  "engines": {
+    "node": ">=14"
   }
 }
