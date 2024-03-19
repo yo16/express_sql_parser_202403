@@ -1,17 +1,31 @@
 const express = require("express");
+const cors = require("cors");
 const { Sql2Ary } = require("sql_parse_202403");
 
 const app = express();
 const port = process.env.PORT || 3001;
 const cors_url = process.env.CORS || "http://localhost:3000";
 
+app.use(
+  cors({
+    origin: cors_url,
+    credentials: true,
+    optionsSuccessStatus: 200,
+  })
+);
+
 app.get("/", (req, res) => res.type('html').send("<html><body>/</body></html>"));
-app.get("/sql", (req, res) => {
+app.post("/sql", (req, res) => {
   try {
     res.setHeader("Access-Control-Allow-Origin", cors_url);
   } catch (e) {
     console.error(e);
   }
+
+  const req_body = req.body;
+
+  const query = req.body.query;
+  console.log(query);
 
   //const query1 = "select t1.col1 from t1 where t1.col2=\"abc\"";
   const query2 = 
