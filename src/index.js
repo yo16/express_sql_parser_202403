@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const bodyParser = require("body-parser");
 const { Sql2Ary } = require("sql_parse_202403");
 
 const app = express();
@@ -13,6 +14,12 @@ app.use(
     optionsSuccessStatus: 200,
   })
 );
+app.use(
+  bodyParser.urlencoded({extended:true})
+);
+app.use(
+  bodyParser.json()
+);
 
 app.get("/", (req, res) => res.type('html').send("<html><body>/</body></html>"));
 app.post("/sql", (req, res) => {
@@ -22,19 +29,12 @@ app.post("/sql", (req, res) => {
     console.error(e);
   }
 
-  const req_body = req.body;
-
+  // bodyからqueryを取り出す
   const query = req.body.query;
-  console.log(query);
+  //console.log(query);
 
-  //const query1 = "select t1.col1 from t1 where t1.col2=\"abc\"";
-  const query2 = 
-    "with t2 as (" +
-    "select " +
-        "id, t1.name, col1 " +
-    "from t1" + 
-    ") select t2.col1 from t2, t3 where t2.id=t3.id";
-  const {stmts, tableConns, colConns} = Sql2Ary(query2);
+  // Sql2Aryで解析
+  const {stmts, tableConns, colConns} = Sql2Ary(query);
   //console.log(stmts);
   
   res.type('json').send({
