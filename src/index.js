@@ -34,14 +34,20 @@ app.post("/sql", (req, res) => {
   //console.log(query);
 
   // Sql2Aryで解析
-  const {stmts, tableConns, colConns} = Sql2Ary(query);
-  //console.log(stmts);
+  try {
+    const {stmts, tableConns, colConns} = Sql2Ary(query);
+    //console.log(stmts);
+
+    res.type('json').send({
+      statements: stmts,
+      tableConns,
+      colConns,
+    });
+  } catch (e) {
+    console.error(e.message);
+    throw new Error(`Error: ${e.message}`);
+  }
   
-  res.type('json').send({
-    statements: stmts,
-    tableConns,
-    colConns,
-  });
 });
 
 const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
