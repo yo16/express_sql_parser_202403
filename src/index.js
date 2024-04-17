@@ -32,6 +32,10 @@ app.post("/sql", (req, res) => {
   // bodyからqueryを取り出す
   const query = req.body.query;
   //console.log(query);
+  if (query.length===0) {
+    res.type('json').send({});
+    return;
+  }
 
   // Sql2Aryで解析
   try {
@@ -44,6 +48,7 @@ app.post("/sql", (req, res) => {
       colConns,
     });
   } catch (e) {
+    res.type('json').send({});
     console.error(e.message);
     throw new Error(`Error: ${e.message}`);
   }
